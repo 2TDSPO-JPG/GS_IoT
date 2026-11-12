@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "author": "Saneia",
+  "editor": "wokwi",
+  "parts": [
+    { "type": "wokwi-esp32-devkit-v1", "id": "esp", "top": 3, "left": -88, "attrs": {} },
+    { "type": "wokwi-hc-sr04", "id": "ultra", "top": -38, "left": 120, "attrs": { "distance": "102" } }
+  ],
+  "connections": [
+    [ "esp:VIN", "ultra:VCC", "red", [] ],
+    [ "esp:GND.1", "ultra:GND", "black", [] ],
+    [ "esp:D5", "ultra:TRIG", "green", [] ],
+    [ "esp:D18", "ultra:ECHO", "blue", [] ],
+    [ "esp:TX0", "$serialMonitor:RX", "", [] ],
+    [ "esp:RX0", "$serialMonitor:TX", "", [] ]
+  ],
+  "dependencies": {}
+}
