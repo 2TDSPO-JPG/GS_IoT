@@ -6,6 +6,7 @@
   "engines": { "node": ">=22" },
   "scripts": {
     "start": "node --env-file-if-exists=.env src/server.js",
+    "rag": "node --env-file-if-exists=.env src/start-rag.js",
     "test": "node --test",
     "simular": "node --env-file-if-exists=.env src/simulate.js"
   },

@@ -1,0 +1,32 @@
+[
+  {
+    "id": "SAN-01",
+    "title": "Alarme de nível",
+    "signals": ["above-limit", "active-alarm"],
+    "text": "Abra a ficha do equipamento e confronte o horário e o volume da última leitura com o limite cadastrado. Registre a triagem no protocolo da operadora e encaminhe a ocorrência à equipe responsável. Uma queda isolada do volume não confirma a normalização."
+  },
+  {
+    "id": "SAN-02",
+    "title": "Tendência de elevação",
+    "signals": ["warning", "rising"],
+    "text": "Compare as leituras mais recentes com o limite operacional e acompanhe a próxima atualização. Registre a tendência se ela persistir. Trate a previsão como estimativa condicionada à continuidade das leituras."
+  },
+  {
+    "id": "SAN-03",
+    "title": "Perda de comunicação",
+    "signals": ["offline"],
+    "text": "Confirme o horário da última leitura e consulte se há outros equipamentos da mesma região sem comunicação. Encaminhe à equipe de telemetria se a ausência persistir. A última medição representa apenas o instante em que foi recebida."
+  },
+  {
+    "id": "SAN-04",
+    "title": "Amostras insuficientes",
+    "signals": ["sparse"],
+    "text": "Indique que o recorte é insuficiente para sustentar uma tendência e sugira consultar um intervalo com mais leituras. Mantenha o volume observado e o limite como referências separadas."
+  },
+  {
+    "id": "SAN-05",
+    "title": "Acompanhamento de rotina",
+    "signals": ["normal"],
+    "text": "Mantenha o acompanhamento da série e consulte os eventos recentes ao revisar o turno. O estado atual descreve as leituras disponíveis do equipamento."
+  }
+]
