@@ -1,3 +1,5 @@
+import { procedurePrompt } from './retrieval.js';
+
 export function httpError(status, message) {
   return Object.assign(new Error(message), { status });
 }
@@ -6,7 +8,7 @@ export function createGemini({ key, model, fetcher = fetch, clock = Date.now }) 
   if (!/^[a-z0-9.-]+$/.test(model)) throw new Error('GEMINI_MODEL inválido.');
   let lastRequest = -Infinity;
 
-  return async function analyze(facts) {
+  return async function analyze(facts, sources = []) {
     if (!key) throw httpError(503, 'Configure GEMINI_API_KEY no servidor para usar a análise.');
     if (clock() - lastRequest < 30_000) throw httpError(429, 'Aguarde 30 segundos antes de gerar outra análise.');
     lastRequest = clock();
@@ -18,7 +20,7 @@ export function createGemini({ key, model, fetcher = fetch, clock = Date.now }) 
         signal: AbortSignal.timeout(12_000),
         body: JSON.stringify({
           systemInstruction: { parts: [{ text:
-            'Resuma em português do Brasil, em até três frases curtas e em texto simples, as métricas de um reservatório simulado. Cite números úteis para a operadora, diferencie leituras acima do limite de eventos de alarme e sinalize quando há poucas amostras. Use somente os fatos recebidos. Não atribua causas, não estime novos números e não mude o estado do equipamento.',
+            'Resuma em português do Brasil, em até três frases curtas e em texto simples, as métricas de um reservatório simulado. Cite números úteis para a operadora, diferencie leituras acima do limite de eventos de alarme e sinalize quando há poucas amostras. Use somente os fatos recebidos. Não atribua causas, não estime novos números e não mude o estado do equipamento.' + procedurePrompt(sources),
           }] },
           contents: [{ role: 'user', parts: [{ text: JSON.stringify(facts) }] }],
           generationConfig: {

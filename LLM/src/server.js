@@ -4,6 +4,7 @@ import { resolve } from 'node:path';
 import mqtt from 'mqtt';
 import { Telemetry, decodeReading, device } from './telemetry.js';
 import { createGemini, httpError } from './gemini.js';
+import { retrieveProcedures } from './retrieval.js';
 
 const host = process.env.HOST || '127.0.0.1';
 const port = Number(process.env.PORT || 8090);
@@ -94,7 +95,11 @@ const server = createServer(async (req, res) => {
     } else if (req.method === 'POST' && path === `/sensors/${device.id}/insights`) {
       const facts = telemetry.facts(await readRange(req));
       if (!facts) throw httpError(422, 'Não há leituras nesse período para analisar.');
-      send(res, 200, { summary: await analyze(facts) });
+      const sources = retrieveProcedures({ readings: facts.amostras, currentStatus: telemetry.snapshot().status,
+        readingsAtOrAboveLimit: facts.leiturasNoLimite, alarmEvents: facts.alarmesAbertosNoPeriodo,
+        changeLiters: facts.variacaoL, etaHours: telemetry.snapshot().etaHours });
+      send(res, 200, { summary: await analyze(facts, sources),
+        references: sources.map(({ id, title }) => ({ id, title })) });
     } else {
       send(res, 404, { message: 'Rota não encontrada.' });
     }

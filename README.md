@@ -55,6 +55,36 @@ Use JDK 21 no Java, SDK .NET 8 no monitoramento e Node.js 22.13 ou superior no E
 
 O backend calcula os volumes, os indicadores e os alarmes. O Gemini recebe somente os indicadores do período e redige a explicação. A chave fica no servidor. [Modelo Gemini 3.5 Flash](https://ai.google.dev/gemini-api/docs/models/gemini-3.5-flash)
 
+## RAG na ficha do equipamento
+
+A análise combina a telemetria do .NET com os [procedimentos simulados SAN-01 a SAN-05](LLM/knowledge/procedimentos.json). A base foi escrita para o protótipo e cobre alarme, tendência de elevação, perda de comunicação, poucas amostras e rotina. O serviço classifica os indicadores por sinais, atribui escores aos documentos e envia os dois trechos mais relevantes ao Gemini. A escolha por sinais é reproduzível e adequada a uma base pequena e a estados conhecidos.
+
+1. Em `LLM/.env`, configure `GEMINI_API_KEY` com a chave real e `RAG_INTEGRATION_TOKEN` com um token aleatório de pelo menos 32 bytes. Configure as variáveis exclusivamente nos servidores.
+2. Rode `npm.cmd ci` e `npm.cmd run rag` em `LLM/`. O serviço responde em `127.0.0.1:8091` por padrão.
+3. Na configuração existente do processo Java, defina `AI_BASE_URL=http://127.0.0.1:8091`, `AI_MODEL=gemini-3.5-flash` e `GEMINI_API_KEY` com o **valor de `RAG_INTEGRATION_TOKEN`**. Se o Java estiver em outro host, configure o endereço do RAG acessível ao servidor por rede privada ou HTTPS. O serviço usa a interface compatível com OpenAI. [API Gemini compatível com OpenAI](https://ai.google.dev/gemini-api/docs/openai)
+4. Gere um insight no app. Confira `telemetrySource: "dotnet"`, `aiGenerated: true`, números iguais à telemetria e a referência `[SAN-01]` ao mencionar o procedimento de alarme. O Java mantém o resumo calculado quando a geração falha.
+
+As chamadas do Spring AI para outras funcionalidades seguem para o Gemini com o prompt original. A busca de procedimentos enriquece os insights de equipamento. A ponte da seção seguinte também usa a mesma base. Os procedimentos são referências acadêmicas de triagem, com cobertura restrita aos cinco cenários. As fontes recuperadas podem ser verificadas pelo ID, e métricas e alarmes seguem a lógica da telemetria.
+
+### Evidências de avaliação
+
+| Cenário | Critério verificado pela suíte |
+| --- | --- |
+| Alarme com pico de 1.850 L | Seleciona SAN-01, preserva os números recebidos e entrega o trecho ao provedor. |
+| Falha de comunicação com alarme anterior | Prioriza SAN-03 e inclui SAN-01 como contexto histórico. |
+| Alerta, poucas leituras e rotina | Seleciona SAN-02, SAN-04 ou SAN-05 conforme os sinais. |
+| Credencial ausente, corpo inválido ou provedor indisponível | Responde com erro controlado. |
+
+Os testes automatizados verificam a recuperação e o contrato com um provedor simulado. Para o vídeo ou a avaliação presencial, execute o cenário de alarme com sua chave real e confira se o texto preserva as métricas e cita somente as referências recuperadas.
+
+### Integrantes
+
+| Nome | RM |
+| --- | --- |
+| Pedro Ferreira | RM565824 |
+| Jonas Santos | RM563234 |
+| Gabriel Muller | RM561995 |
+
 ## Rodar o LLM localmente
 
 A ponte em `LLM/` permite acompanhar o MQTT e testar a análise com Node.js. Ela guarda as amostras em `LLM/data/telemetry.json` por padrão. Use Node.js 22.13 ou superior.
