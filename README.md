@@ -8,8 +8,10 @@ flowchart LR
     M --> N[".NET · leituras, eventos e indicadores"]
     N --> A["Expo · mapa, ficha e histórico"]
     N --> J["Java · Spring AI"]
-    J --> G["Gemini"]
-    G --> J
+    J --> R["Serviço RAG · recupera até dois procedimentos SAN"]
+    R --> G["Gemini · gera o texto com os indicadores e trechos"]
+    G --> R
+    R --> J
     J --> A
 ```
 
@@ -67,6 +69,8 @@ A análise combina a telemetria do .NET com os [procedimentos simulados SAN-01 a
 As chamadas do Spring AI para outras funcionalidades seguem para o Gemini com o prompt original. A busca de procedimentos enriquece os insights de equipamento. A ponte da seção seguinte também usa a mesma base. Os procedimentos são referências acadêmicas de triagem, com cobertura restrita aos cinco cenários. As fontes recuperadas podem ser verificadas pelo ID, e métricas e alarmes seguem a lógica da telemetria.
 
 ### Evidências de avaliação
+
+Na execução de 18/11/2026, os sete testes de `npm test` passaram. No teste de recuperação, os cinco conjuntos de indicadores retornaram exatamente a lista esperada de referências (5/5). A falha simulada do provedor também foi tratada. A suíte avalia a seleção de contexto e o contrato de integração com respostas controladas. Para avaliar a redação do modelo real, use o fluxo abaixo e compare volume, estado e referência com a ficha do mesmo período.
 
 | Cenário | Critério verificado pela suíte |
 | --- | --- |
