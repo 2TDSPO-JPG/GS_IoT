@@ -1,0 +1,33 @@
+{
+  "equipamento": "RES-07",
+  "estado": "alarm",
+  "volume": 1850.0,
+  "aiGenerated": true,
+  "telemetrySource": "dotnet",
+  "modelo": "gemini-3.1-flash-lite",
+  "segundos": 3.37,
+  "resumo": "O reservatório RES-07 apresenta tendência de alta no volume, atingindo o máximo de 1850.0 litros em 2026-11-18. Foram registradas 5 leituras no limite ou acima dele e 2 eventos de alarme. Como o status atual é de alarme, recomenda-se confrontar o horário e o volume da última leitura com o limite cadastrado conforme o procedimento [SAN-01]. A estimativa de tempo para atingir o limite é nula pois o volume atual já o ultrapassou.",
+  "indicadores": {
+    "sensorId": "200",
+    "prefix": "RES-07",
+    "name": "Reservatório de teste Wokwi",
+    "period": "all",
+    "to": "2026-11-18T22:51:17Z",
+    "readings": 12,
+    "firstVolume": 1000.0,
+    "lastVolume": 1850.0,
+    "minVolume": 1000.0,
+    "maxVolume": 1850.0,
+    "maxVolumeAt": "2026-11-18T00:53:13.578177600Z",
+    "averageVolume": 1454.1666666666667,
+    "changeLiters": 850.0,
+    "capacity": 2000.0,
+    "limit": 1800.0,
+    "readingsAtOrAboveLimit": 5,
+    "alarmEvents": 2,
+    "longestAlarmHours": 0.07109332480555555,
+    "etaHours": 0.0,
+    "currentStatus": "alarm",
+    "lastReadingAt": "2026-11-18T22:51:13.149723800Z"
+  }
+}

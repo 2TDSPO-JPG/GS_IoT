@@ -72,6 +72,10 @@ As chamadas do Spring AI para outras funcionalidades seguem para o Gemini com o 
 
 Na execução de 18/11/2026, os sete testes de `npm test` passaram. No teste de recuperação, os cinco conjuntos de indicadores retornaram exatamente a lista esperada de referências (5/5). A falha simulada do provedor também foi tratada. A suíte avalia a seleção de contexto e o contrato de integração com respostas controladas. Para avaliar a redação do modelo real, use o fluxo abaixo e compare volume, estado e referência com a ficha do mesmo período.
 
+No ensaio integrado, o publicador de teste enviou amostras ao HiveMQ. A operadora solicitou a análise de RES-07 pela API Java e recebeu `aiGenerated: true` e `telemetrySource: "dotnet"`. Com `AI_MODEL=gemini-3.1-flash-lite`, a resposta chegou em 3,37 s. O texto preservou o pico de 1.850 L, as cinco leituras no limite ou acima dele e os dois eventos de alarme. A referência SAN-01 correspondeu ao estado do reservatório. O tempo mede uma única requisição. O modelo 3.5 Flash também foi testado e o provedor informou alta demanda durante uma tentativa. [Resposta e indicadores da mesma requisição](LLM/evidencias/insight-res07.json)
+
+O firmware compilou com Arduino CLI, ESP32 2.0.17 e PubSubClient 2.8, ocupando 731.769 bytes de programa e 44.776 bytes de variáveis globais. Para reproduzir o estímulo diretamente no circuito, siga os passos da seção Arduino no Wokwi.
+
 | Cenário | Critério verificado pela suíte |
 | --- | --- |
 | Alarme com pico de 1.850 L | Seleciona SAN-01, preserva os números recebidos e entrega o trecho ao provedor. |
