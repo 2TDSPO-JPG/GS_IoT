@@ -22,6 +22,10 @@ flowchart LR
 
 ## Arduino no Wokwi
 
+**Projeto da equipe:** [Abrir o Saneia no Wokwi](https://wokwi.com/projects/481078133459771393). Clique em **Iniciar simulação** para executar o circuito. No HC-SR04, altere a distância e acompanhe o equipamento **RES-07** no aplicativo. Para evitar leituras conflitantes, mantenha apenas uma simulação publicando por vez.
+
+Os passos abaixo permitem recriar o projeto a partir dos arquivos deste repositório.
+
 1. Crie um projeto **Arduino com ESP32** no Wokwi. [Abrir o modelo ESP32](https://wokwi.com/projects/new/esp32)
 2. Copie [`Saneia.ino`](Arduino/Saneia/Saneia.ino) para o arquivo `sketch.ino` do editor. Substitua o `diagram.json` pelo [circuito do projeto](Arduino/Saneia/diagram.json) e adicione `PubSubClient` no gerenciador de bibliotecas. A pasta contém o [`libraries.txt`](Arduino/Saneia/libraries.txt) correspondente.
 3. Inicie a simulação. O monitor serial registra **Conectado ao HiveMQ** e mostra uma amostra a cada cinco segundos. Clique no HC-SR04 para mudar a distância.
